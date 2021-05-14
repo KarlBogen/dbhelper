@@ -1,0 +1,40 @@
+{$FORM_ACTION}
+	<h1 class="mb text-center">{$smarty.const.TEXT_CONFIG_HEADING_HELPER}</h1>
+
+	{if isset($error)}<div class="errormessage cf">{$error}</div>{/if}
+	{if isset($success)}<div class="successmessage cf">{$success}</div>{/if}
+
+	{if !isset($NEXT_STEP)}
+		<h2>{$smarty.const.TEXT_DB_HEADING}</h2>
+		<div class="field_row cf">
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_DB_SERVER}</div>{$INPUT_DB_SERVER}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_DB_DATABASE}</div>{$INPUT_DB_DATABSE}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_DB_USERNAME}</div>{$INPUT_DB_USERNAME}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_DB_PASSWORD}</div>{$INPUT_DB_PASSWORD}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_DB_MYSQL_TYPE}</div>{$INPUT_DB_MYSQL_TYPE}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_DB_CHARSET}</div>{$INPUT_DB_CHARSET}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_DB_PCONNECT}</div>{$INPUT_DB_PCONNECT}</div>
+		</div>
+		<br />
+		<h2>{$smarty.const.TEXT_SERVER_HEADING}</h2>
+		<div class="field_row cf">
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_SERVER_HTTP_SERVER}</div>{$INPUT_HTTP_SERVER}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_SERVER_HTTPS_SERVER}</div>{$INPUT_HTTPS_SERVER}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_SERVER_USE_SSL}</div>{$INPUT_USE_SSL}</div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_SERVER_SESSION}</div>{$INPUT_SESSION}</div>
+		</div>
+		<br />
+		<h2>{$smarty.const.TEXT_ADMIN_DIRECTORY_HEADING}</h2>
+		<div class="field_row cf">
+			<div class="field_item cf"><div class="field_heading errormessage">{$smarty.const.TEXT_ADMIN_DIRECTORY_DESCRIPTION}</div></div>
+			<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_ADMIN_DIRECTORY}&nbsp;&nbsp;{$ADMIN_DIRECTORY_SUGGEST}</div>{$INPUT_ADMIN_DIRECTORY}</div>
+		</div>
+	{/if}
+
+	<noscript><div class="errormessage cf"><strong>{$smarty.const.TEXT_ERROR_JAVASCRIPT_HELPER}</strong></div></noscript>
+	<div class="cssButtonRow cf">
+		{if isset($BUTTON_SHOP)}<div class="cssButton cssColor_2">{$BUTTON_SHOP}</div>{/if}
+		<div class="cssButton cssColor_3">{$BUTTON_SUBMIT}</div>
+		{if isset($BUTTON_FORWARD)}<div class="cssButton cssColor_2">{$BUTTON_FORWARD}</div>{/if}
+	</div>
+{$FORM_END}

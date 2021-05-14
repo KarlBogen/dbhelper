@@ -1,0 +1,53 @@
+	<div class="mb"><p id="settingsLink">{$bigdump_help_link}&nbsp;&nbsp;{$bigdump_settings_link}</p></div>
+
+	<h1 class="bigdump text-center">{$smarty.const.TEXT_DB_RESTORE_HELPER}</h1>
+
+	<div id="wait" style="display:none;">
+		<div id="process_info_wait">{$smarty.const.TEXT_INFO_WAIT}</div>
+		<div class="processing_bar">
+			<img src="images/processing.gif" alt="" />
+		</div>
+		<h3 class="text-center">{$bigdump_read_message}</h3>
+	</div>
+
+	<div id="dump_content">
+		{$bigdump_string}
+		{$BUTTON_SHOP}
+	</div>
+
+	<p class="mt text-center">BigDump: Staggered MySQL Dump Importer v{$smarty.const.BIGDUMP_VERSION}</p>
+	<p class="text-center">&copy; 2003-2015 <a href="mailto:alexey@ozerov.de">Alexey Ozerov</a> - {$smarty.const.BIGDUMP_MODIFIED_BY} Karl</p>
+
+	<script>
+		var elements = document.getElementsByClassName("startlink");
+		var loading = function() {
+			document.getElementById('wait').style.display = 'block';
+			document.getElementById('dump_content').style.display = 'none';
+			document.getElementById('settingsLink').style.display = 'none';
+		};
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].addEventListener('click', loading, false);
+		}
+		var backuptable = document.getElementById('backuptable');
+		if (typeof(backuptable) != 'undefined' && backuptable != null) {
+			document.getElementById('settingsLink').style.display = '';
+		}
+		else {
+			var buttonRow = document.getElementById('buttonRow');
+			if (typeof(buttonRow) != 'undefined' && buttonRow != null) {
+				buttonRow.style.display = 'none';
+			}
+			document.getElementById('settingsLink').style.display = 'none';
+		}
+		var spinner = document.getElementById('spinner');
+		if (typeof(spinner) != 'undefined' && spinner != null) {
+			spinner.style.display = 'block';
+		}
+		else {
+			var startl = document.getElementById('startline');
+			if (typeof(startl) != 'undefined' && startl != null) {
+				startl.style.display = 'none';
+			}
+		}
+		{$bigdump_jsstring}
+	</script>

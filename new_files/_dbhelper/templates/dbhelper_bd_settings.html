@@ -1,0 +1,37 @@
+{$FORM_ACTION}
+	<h1 class="mb text-center">{$smarty.const.TEXT_BIGDUMP_HEADING_SETTINGS}</h1>
+
+	{if isset($success)}<div class="successmessage cf">{$success}</div>{/if}
+
+	{if !isset($NEXT_STEP)}
+	<div class="field_row cf">
+		<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_BIGDUMP_TESTMODE}</div>{$INPUT_BIGDUMP_TESTMODE}</div>
+		<div class="field_item cf">{$smarty.const.TEXT_BIGDUMP_TESTMODE_DESC}</div>
+	</div>
+	<div class="field_row cf">
+		<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_BIGDUMP_AJAX_MODE}</div>{$INPUT_BIGDUMP_AJAX_MODE}</div>
+		<div class="field_item cf">{$smarty.const.TEXT_BIGDUMP_AJAX_MODE_DESC}</div>
+	</div>
+	<div class="field_row cf">
+		<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_BIGDUMP_LINESPERSESSION}</div>{$INPUT_BIGDUMP_LINESPERSESSION}</div>
+		<div class="field_item cf">{$smarty.const.TEXT_BIGDUMP_LINESPERSESSION_DESC}</div>
+	</div>
+	<div class="field_row cf">
+		<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_BIGDUMP_DELAYPERSESSION}</div>{$INPUT_BIGDUMP_DELAYPERSESSION}</div>
+		<div class="field_item cf">{$smarty.const.TEXT_BIGDUMP_DELAYPERSESSION_DESC}</div>
+	</div>
+	<div class="field_row cf">
+		<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_BIGDUMP_STRING_QUOTES}</div>{$INPUT_BIGDUMP_STRING_QUOTES}</div>
+		<div class="field_item cf">{$smarty.const.TEXT_BIGDUMP_STRING_QUOTES_DESC}</div>
+	</div>
+	<div class="field_row cf">
+		<div class="field_item cf"><div class="field_heading">{$smarty.const.TEXT_BIGDUMP_MAX_QUERY_LINES}</div>{$INPUT_BIGDUMP_MAX_QUERY_LINES}</div>
+		<div class="field_item cf">{$smarty.const.TEXT_BIGDUMP_MAX_QUERY_LINES_DESC}</div>
+	</div>
+	{/if}
+
+	<div class="cssButtonRow cf">
+		{if isset($BUTTON_BACK)}<div class="cssButton cssColor_2">{$BUTTON_BACK}</div>{/if}
+		<div class="cssButton cssColor_3">{$BUTTON_SUBMIT}</div>
+	</div>
+{$FORM_END}
