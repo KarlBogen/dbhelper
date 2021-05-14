@@ -5,9 +5,9 @@ Voraussetzung: Modified eCommerce Shopsoftware - Version ab 2.0.5.0
 
 ## Installation und Start des Helfers
 
-Im Verzeichnis **new_files** befindet sich der Ordner **_dbhelper**.
-Diesen Ordner mit allen Dateien in den Shoproot kopieren.
-Anschließend im Browser **meinshop.de/_dbhelper/** aufrufen.
+Im Verzeichnis **new_files** befindet sich der Ordner **_dbhelper**.<br />
+Diesen Ordner mit allen Dateien in den Shoproot kopieren.<br />
+Anschließend im Browser **meinshop.de/_dbhelper/** aufrufen.<br />
 
 ## Allgemeines
 
@@ -18,53 +18,52 @@ Dieser Helfer unterstützt bei,
 - dem Umzug einer Datenbank mit Hilfe einer Datenbanksicherung.
 
 *Hinweis:*
-Das Tool erwartet ein Datenbankbackup im Ordner **admin/backups/** als unkomprimierte SQL-Datei (*.sql) oder als komprimierte GZIP-Datei (*.gz). Vollständige Insert's verhindern Fehler beim Verarbeiten der Backupteile.
-Empfohlen wird die Verwendung des shopinternen Datenbank Managers mit den Optionen "Keine Komprimierung (Raw SQL)" und "Vollständige 'INSERT's".
+Das Tool erwartet ein Datenbankbackup im Ordner **admin/backups/** als unkomprimierte SQL-Datei (*.sql) oder als komprimierte GZIP-Datei (*.gz).<br />
+Vollständige Insert's verhindern Fehler beim Verarbeiten der Backupteile.<br />
+Empfohlen wird die Verwendung des shopinternen Datenbank Managers mit den Optionen "Keine Komprimierung (Raw SQL)" und "Vollständige 'INSERT's".<br />
 
-Für die Wiederherstellung der MySQL-Datenbank, also dem Import eines Backups, wir eine modifizierte Version des Skriptes **BigDump** benutzt, dass nacheinander kleine Teile des Backups verarbeitet.
+Für die Wiederherstellung der MySQL-Datenbank, also dem Import eines Backups, wir eine modifizierte Version des Skriptes **BigDump** benutzt, dass nacheinander kleine Teile des Backups verarbeitet.<br /><br />
 
-![](images/screenshot_1.png)
-
-<img src="images/screenshot_1.png" width="400">
+<img src="images/screenshot_1.png" width="500">
 
 
 ## Konfigurationsdaten
 
-Hier besteht die Möglichkeit die Konfigurationsdatei **includes/configure.php** zu aktualisieren.
-Die Daten aus der Konfigurationsdatei werden in Datenbankwiederherstellung übernommen.
+Hier besteht die Möglichkeit die Konfigurationsdatei **includes/configure.php** zu aktualisieren.<br />
+Die Daten aus der Konfigurationsdatei werden in Datenbankwiederherstellung übernommen.<br />
 
-<img src="images/screenshot_2.png" width="400">
+<img src="images/screenshot_2.png" width="500">
 
 
 ## BigDump Einstellungen
 
-Hier können die BigDump Einstellungen verändert werden.
+Hier können die BigDump Einstellungen verändert werden.<br />
 
-<img src="images/screenshot_3.png" width="400">
+<img src="images/screenshot_3.png" width="500">
 
 
 ## Datenbankwiederherstellung
 
-Die Startseite der Datenbankwiederherstellung zeigt alle vorhanden Sicherungen im Backupordner (Standard: "admin/backups").
+Die Startseite der Datenbankwiederherstellung zeigt alle vorhanden Sicherungen im Backupordner (Standard: "admin/backups").<br />
 
-<img src="images/screenshot_4.png" width="400">
+<img src="images/screenshot_4.png" width="500">
 
-Durch Klick auf den entsprechenden Link **Import starten** wird die Wiederherstellung begonnen.
+Durch Klick auf den entsprechenden Link **Import starten** wird die Wiederherstellung begonnen.<br />
 
-<img src="images/screenshot_5.png" width="400">
+<img src="images/screenshot_5.png" width="500">
 
-**Das Skript arbeitet schrittweise** alle SQL-Anweisungen der Backupdatei ab.
-Die Sicherungsdatei kann komprimierte Dateien
+**Das Skript arbeitet schrittweise** alle SQL-Anweisungen der Backupdatei ab.<br />
+Die Sicherungsdatei kann komprimierte Dateien<br />
 
-<img src="images/screenshot_6.png" width="400">
+<img src="images/screenshot_6.png" width="500">
 
-und unkomprimierte Dateien verabreiten
+und unkomprimierte Dateien verabreiten<br />
 
-<img src="images/screenshot_7.png" width="400">
+<img src="images/screenshot_7.png" width="500">
 
-Die Abschlußmeldung zeigt eine Zusammenfassung der Wiederherstellung
+Die Abschlußmeldung zeigt eine Zusammenfassung der Wiederherstellung<br />
 
-<img src="images/screenshot_8.png" width="400">
+<img src="images/screenshot_8.png" width="500">
 
 <br />
 Viel Spaß!<br />
