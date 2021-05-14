@@ -1,6 +1,6 @@
 # Datenbankhelfer für die modified eCommerce Shopsoftware
 
-Voraussetzung: Modified eCommerce Shopsoftware - Version ab 2.0.5.0
+Voraussetzung: Modified eCommerce Shopsoftware - ab Version 2.0.5.0
 
 
 ## Installation und Start des Helfers
@@ -30,40 +30,42 @@ Für die Wiederherstellung der MySQL-Datenbank, also dem Import eines Backups, w
 ## Konfigurationsdaten
 
 Hier besteht die Möglichkeit die Konfigurationsdatei **includes/configure.php** zu aktualisieren.<br />
-Die Daten aus der Konfigurationsdatei werden in Datenbankwiederherstellung übernommen.<br />
+Die Daten aus der Konfigurationsdatei werden in Datenbankwiederherstellung übernommen.<br /><br />
 
 <img src="images/screenshot_2.png" width="500">
 
 
 ## BigDump Einstellungen
 
-Hier können die BigDump Einstellungen verändert werden.<br />
+Hier können die BigDump Einstellungen verändert werden.<br /><br />
 
 <img src="images/screenshot_3.png" width="500">
 
 
 ## Datenbankwiederherstellung
 
-Die Startseite der Datenbankwiederherstellung zeigt alle vorhanden Sicherungen im Backupordner (Standard: "admin/backups").<br />
+Die Startseite der Datenbankwiederherstellung zeigt alle vorhanden Sicherungen im Backupordner (Standard: "admin/backups").<br /><br />
 
 <img src="images/screenshot_4.png" width="500">
 
-Durch Klick auf den entsprechenden Link **Import starten** wird die Wiederherstellung begonnen.<br />
+Durch Klick auf den entsprechenden Link **Import starten** wird die Wiederherstellung begonnen.<br /><br />
 
 <img src="images/screenshot_5.png" width="500">
 
-**Das Skript arbeitet schrittweise** alle SQL-Anweisungen der Backupdatei ab.<br />
-Die Sicherungsdatei kann komprimierte Dateien<br />
+**Das Skript arbeitet schrittweise** alle SQL-Anweisungen der Backupdatei ab.<br /><br />
+Die Sicherungsdatei kann komprimierte Dateien<br /><br />
 
 <img src="images/screenshot_6.png" width="500">
 
-und unkomprimierte Dateien verabreiten<br />
+und unkomprimierte Dateien verabreiten<br /><br />
 
 <img src="images/screenshot_7.png" width="500">
 
-Die Abschlußmeldung zeigt eine Zusammenfassung der Wiederherstellung<br />
+Die Abschlußmeldung zeigt eine Zusammenfassung der Wiederherstellung<br /><br />
 
 <img src="images/screenshot_8.png" width="500">
+
+<br />**Wichtig: Nach Abschluß der Wiederherstellung ist das Verzeichnis "_dbhelper" zu löschen!**<br />
 
 <br />
 Viel Spaß!<br />

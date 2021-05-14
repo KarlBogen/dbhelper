@@ -224,7 +224,7 @@
   define('BIGDUMP_LINES', 'Lines');
   define('BIGDUMP_DONE', 'Done');
   define('BIGDUMP_CONGRATULATIONS', 'Congratulations: End of file reached, assuming OK!');
-  define('BIGDUMP_NOTE_REMOVE_DBHELPER', 'IMPORTANT: REMOVE FOLDER \"<strong>_dbhelper</strong>\" FROM SERVER NOW!');
+  define('BIGDUMP_NOTE_REMOVE_DBHELPER', 'IMPORTANT: REMOVE FOLDER "<strong>_dbhelper</strong>" FROM SERVER NOW!');
   define('BIGDUMP_DELAY_MESSAGE', 'Now I\'m <b>waiting %s milliseconds</b> before starting next session...');
   define('BIGDUMP_TEXT_PRESS', 'Press');
   define('BIGDUMP_CONTINUE_FROM_LINE', 'Continue from the line ');
