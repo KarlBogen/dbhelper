@@ -17,10 +17,10 @@ Dieser Helfer unterstützt bei,
 - der Wiederherstellung einer Datenbanksicherung.
 - dem Umzug einer Datenbank mit Hilfe einer Datenbanksicherung.
 
-*Hinweis:*
-Das Tool erwartet ein Datenbankbackup im Ordner **admin/backups/** als unkomprimierte SQL-Datei (*.sql) oder als komprimierte GZIP-Datei (*.gz).<br />
+*Hinweis:<br />
+Das Tool erwartet ein Datenbankbackup im Ordner **admin/backups/** als unkomprimierte SQL-Datei (\*.sql) oder als komprimierte GZIP-Datei (\*.gz).<br />
 Vollständige Insert's verhindern Fehler beim Verarbeiten der Backupteile.<br />
-Empfohlen wird die Verwendung des shopinternen Datenbank Managers mit den Optionen "Keine Komprimierung (Raw SQL)" und "Vollständige 'INSERT's".<br />
+Empfohlen wird die Verwendung des shopinternen Datenbank Managers mit den Optionen "Keine Komprimierung (Raw SQL)" und "Vollständige 'INSERT's".*<br />
 
 Für die Wiederherstellung der MySQL-Datenbank, also dem Import eines Backups, wir eine modifizierte Version des Skriptes **BigDump** benutzt, dass nacheinander kleine Teile des Backups verarbeitet.<br /><br />
 
