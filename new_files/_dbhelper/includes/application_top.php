@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: application_top.php 13196 2021-01-18 14:34:24Z GTB $
+   $Id: application_top.php 14530 2022-06-14 10:28:47Z GTB $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -10,6 +10,10 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 
+
+  // set the level of error reporting
+  @ini_set('display_errors', false);
+  error_reporting(0);
 
   // set the type of request (secure or not)
   if (file_exists('../includes/request_type.php')) {
@@ -25,18 +29,13 @@
   include(__DIR__.'/config.php');
 
   // default time zone
-  date_default_timezone_set('Europe/Berlin');
-
-  // set the level of error reporting
-  @ini_set('display_errors', true);
-  error_reporting(-1);
+  date_default_timezone_set(DEFAULT_TIMEZONE);
 
   // new error handling
   if (!defined('STORE_PARSE_DATE_TIME_FORMAT')) {
-    define('STORE_PARSE_DATE_TIME_FORMAT', '%d/%m/%Y %H:%M:%S');
+    define('STORE_PARSE_DATE_TIME_FORMAT', 'Y-m-d H:i:s');
   }
   if (is_file(DIR_FS_CATALOG.'includes/error_reporting.php')) {
-    define('LOGGING_LEVEL', 'WARN');
     require_once (DIR_FS_CATALOG.'includes/error_reporting.php');
 
     $LogLevel = 'WARNING';

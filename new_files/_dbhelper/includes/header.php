@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: header.php 11143 2018-05-29 11:56:32Z GTB $
+   $Id: header.php 14528 2022-06-14 10:21:59Z GTB $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -14,11 +14,12 @@
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language_code']; ?>">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Installer</title>
-  <link rel="stylesheet" type="text/css" href="templates/stylesheet.css" />
-  <link rel="stylesheet" type="text/css" href="templates/css/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="templates/stylesheet.css?v=<?php echo filemtime(DIR_FS_INSTALLER.'templates/stylesheet.css'); ?>" />
+  <link rel="stylesheet" type="text/css" href="templates/css/font-awesome.css?v=<?php echo filemtime(DIR_FS_INSTALLER.'templates/css/font-awesome.css'); ?>">
   <base href="<?php echo xtc_href_link(DIR_WS_INSTALLER); ?>" />
-  <link rel="icon" type="image/png" href="<?php echo xtc_href_link(DIR_WS_INSTALLER.'images/favicon.ico', '', 'SSL'); ?>" />
+  <link rel="icon" type="image/png" href="<?php echo xtc_href_link(DIR_WS_INSTALLER.'images/favicon.ico', '', 'SSL'); ?>">
 </head>
 <body>

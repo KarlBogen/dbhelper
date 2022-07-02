@@ -2,7 +2,7 @@
 $file_contents = 
 '<?php' . PHP_EOL .
 '/* --------------------------------------------------------------' . PHP_EOL .
-'   $Id: configure.php 12243 2019-10-04 12:32:07Z GTB $' . PHP_EOL .
+'   $Id: configure.php 14528 2022-06-14 10:21:59Z GTB $' . PHP_EOL .
 '' . PHP_EOL .
 '   modified eCommerce Shopsoftware' . PHP_EOL .
 '   http://www.modified-shop.org' . PHP_EOL .
@@ -57,7 +57,7 @@ $file_contents =
 '    require_once(DIR_FS_CATALOG.\'inc/set_admin_directory.inc.php\');' . PHP_EOL .
 '' . PHP_EOL .
 '    // include standard settings' . PHP_EOL .
-'    require(DIR_FS_CATALOG.(defined(\'RUN_MODE_ADMIN\')? DIR_ADMIN : \'\').\'includes/paths.php\');'. PHP_EOL .
+'    require_once(DIR_FS_CATALOG.(defined(\'RUN_MODE_ADMIN\')? DIR_ADMIN : \'\').\'includes/paths.php\');'. PHP_EOL .
 '  }'. PHP_EOL .
 '?>';
 ?>

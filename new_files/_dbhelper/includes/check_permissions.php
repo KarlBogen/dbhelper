@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: check_permissions.php 13213 2021-01-20 16:51:25Z GTB $
+   $Id: check_permissions.php 14529 2022-06-14 10:26:39Z GTB $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -53,7 +53,6 @@
     ),
     'adirs' => array(
         'includes/external/magnalister',
-        'includes/external/shopgate/shopgate_library/config',
         'templates/tpl_modified',
         'templates/xtc5'
     ),
@@ -135,7 +134,7 @@
       } else {
         foreach ($files_to_check['rdirs'] as $dir) {
           if (is_dir(DIR_FS_CATALOG.$dir)) {
-            $rfiles_to_check[$dir] = scanDirectories(DIR_FS_CATALOG.$dir, array());
+            $rfiles_to_check[$dir] = scanDirectories(DIR_FS_CATALOG.$dir, false);
           }
         }
         if (is_array($rfiles_to_check)) {

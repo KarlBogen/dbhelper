@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: check_requirements.php 13452 2021-03-05 17:01:23Z GTB $
+   $Id: check_requirements.php 14528 2022-06-14 10:21:59Z GTB $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -86,7 +86,36 @@
     'status' => $status_tls
   );
 
-  
+  if (class_exists('mysqli')) {
+    $status = true;
+  } else {
+    $status = false;
+    $error = true;
+  }
+
+  $requirement_array[] = array(
+    'name' => 'MYSQLI',
+    'version' => '',
+    'version_min' => '',
+    'version_max' => '',
+    'status' => $status
+  );
+
+  if (class_exists('finfo')) {
+    $status = true;
+  } else {
+    $status = false;
+    $error = true;
+  }
+
+  $requirement_array[] = array(
+    'name' => 'FILEINFO',
+    'version' => '',
+    'version_min' => '',
+    'version_max' => '',
+    'status' => $status
+  );
+
   if (function_exists('fsockopen')) {
     $status = true;
   } else {
@@ -143,3 +172,18 @@
     'version_max' => '',
     'status' => $status
   );
+
+  if (class_exists('ZipArchive')) {
+    $status = true;
+  } else {
+    $status = false;
+    $error = true;
+  }
+
+  $requirement_array[] = array(
+    'name' => 'ZIPARCHIVE',
+    'version' => '',
+    'version_min' => '',
+    'version_max' => '',
+    'status' => $status
+  );  
