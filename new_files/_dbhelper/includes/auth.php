@@ -59,7 +59,7 @@
   }
 
   function show_auth() {
-    define('_MODIFIED_SHOP_LOGIN', true);
+    defined('_MODIFIED_SHOP_LOGIN') or define('_MODIFIED_SHOP_LOGIN', true);
     include(DIR_FS_CATALOG.'includes/login_admin.php');
     exit();
   }  

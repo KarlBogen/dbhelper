@@ -37,7 +37,7 @@
 	{
 		$smarty->assign('PERMISSION_ARRAY', $permission_array);
 		$smarty->assign('REQUIREMENT_ARRAY', $requirement_array);
-		$smarty->assign('UNLINKED_ARRAY', $unlinked_files);
+		$smarty->assign('UNLINKED_ARRAY', isset($unlinked_files) ? $unlinked_files : array());
 
 		if (count($permission_array['file_permission']) > 0 || count($permission_array['folder_permission']) > 0 || count($permission_array['rfolder_permission']) > 0)
 		{

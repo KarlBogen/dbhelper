@@ -112,7 +112,7 @@
       }
   } 
 
-  define('DIR_WS_BASE', xtc_href_link(DIR_WS_INSTALLER, '', $request_type, false, false));
+  defined('DIR_WS_BASE') or define('DIR_WS_BASE', xtc_href_link(DIR_WS_INSTALLER, '', $request_type, false, false));
 
   // auth
   if (file_exists(DIR_FS_CATALOG.'/includes/local/configure.php')) {
@@ -126,7 +126,9 @@
   $_SESSION['auth'] = true;
   
   if (!isset($_SESSION['language']) || isset($_GET['language'])) {
-    switch ($_GET['language']) {
+    $_SESSION['language_charset'] = 'utf-8';
+
+    switch (isset($_GET['language']) ? $_GET['language'] : '') {
       case 'en':
         $_SESSION['language'] = 'english';
         $_SESSION['language_code'] = 'en';

@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: functions.php 14579 2022-06-22 13:36:01Z GTB $
+   $Id: functions.php 16140 2024-10-01 16:16:45Z GTB $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -65,6 +65,7 @@
             $unlinked_files['success']['files'][] = $filename;
           } else {
             $unlinked_files['error']['files'][] = $filename;
+            $error = true;
           }
         }
       }
@@ -129,7 +130,7 @@
         // If the number of unescaped quotes is even, then the delimiter did NOT occur inside a string literal.
         if (($unescaped_quotes % 2) == 0) {
           // It's a complete sql statement.
-          $output[] = $tokens[$i];
+          $output[] = trim($tokens[$i]);
           $tokens[$i] = '';
         } else {
           // incomplete sql statement. keep adding tokens until we have a complete one.
@@ -151,7 +152,7 @@
             if (($unescaped_quotes % 2) == 1) {
               // odd number of unescaped quotes. In combination with the previous incomplete
               // statement(s), we now have a complete statement. (2 odds always make an even)
-              $output[] = $temp . $tokens[$j];
+              $output[] = trim($temp . $tokens[$j]);
       
               $tokens[$j] = '';
               $temp = '';
@@ -168,45 +169,130 @@
         }
       }
     }
+    
     return $output;
   }
   
   
-  function sql_update($file, $plain=false) {  
+  function sql_update($file, $plain = false) {    
     if ($plain === false) {
       $sql_file = file_get_contents($file);
     } else {
       $sql_file = $file;
     }
-    $sql_array = (split_sql_file($sql_file, ';'));
+    $sql_array = split_sql_file($sql_file, ';');
     
     $sql_data_array = array();
     foreach ($sql_array as $sql) {
-      $exists = false;
-      if (preg_match('#[\\\z\s]?(?:ALTER TABLE){1}[\\\Z\s]+([^ ]*)[\\\z\s]+(?:ADD){1}[\\\z\s]+([^ ]*)[\\\z\s]+([^ ]*)#', $sql, $matches)) {
-        if ($matches[2] == strtoupper('INDEX')) {
-          $check_query = xtc_db_query("SHOW KEYS FROM ".$matches[1]." WHERE Key_name='".$matches[3]."'");
-          if (xtc_db_num_rows($check_query)>0) {
-            $sql_data_array[] = trim("ALTER TABLE ".$matches[1]." DROP INDEX ".$matches[3]);
-          }
-        } else {
-          $check_query = xtc_db_query("SHOW COLUMNS FROM " . $matches[1]);
-          while ($check = xtc_db_fetch_array($check_query)) {
-            if ($check['Field']==$matches[2]) { 
-              $exists = true;
-            }
-          }
-        }
+      if (strpos(DB_SERVER_CHARSET, 'utf8') !== false) {
+        $sql = encode_utf8($sql, 'ISO-8859-1', true);
       }
-      if (!$exists) {
-        if (DB_SERVER_CHARSET == 'utf8') {
-          $sql = encode_utf8($sql, '', true);
-        }
-        $sql_data_array[] = trim($sql);
-      }
+      $sql_data_array[] = trim($sql);
     }
     
     return $sql_data_array;
+  }
+  
+  
+  function execute_sql($sql) {
+    static $database_tables;
+    
+    if (!isset($database_tables)) {
+      $database_tables = array();
+      $tables_query = xtc_db_query("SHOW TABLES");
+      while ($tables = xtc_db_fetch_array($tables_query)) {
+        $database_tables[] = $tables['Tables_in_'.DB_DATABASE];
+      }
+    }
+    
+    $execute = true;
+    if (preg_match('#[\\\z\s]?(?:ALTER TABLE){1}[\\\Z\s]+([^ ]*)[\\\z\s]+(?:ADD PRIMARY KEY){1}[\\\z\s]+(.*)#', $sql, $matches)) {
+      $table = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[1]));
+      
+      if (in_array($table, $database_tables)) {
+        $check_query = xtc_db_query("SHOW KEYS FROM `".$table."` WHERE Key_name = 'PRIMARY'");
+        if (xtc_db_num_rows($check_query) > 0) {
+          $add_sql = "ALTER TABLE `".$table."` DROP PRIMARY KEY";
+          xtc_db_query($add_sql);
+          installer_log('EXECUTED SQL: '.$add_sql);
+        }
+      }
+    } elseif (preg_match('#[\\\z\s]?(?:ALTER TABLE){1}[\\\Z\s]+([^ ]*)[\\\z\s]+(?:ADD UNIQUE KEY|ADD UNIQUE){1}[\\\z\s]+([^ ]*)[\\\z\s]+(.*)#', $sql, $matches)) {
+      $table = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[1]));
+      $key = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[2]));
+      
+      if (in_array($table, $database_tables)) {
+        $check_query = xtc_db_query("SHOW KEYS FROM `".$table."` WHERE Key_name = '".$key."'");
+        if (xtc_db_num_rows($check_query) > 0) {
+          $check = xtc_db_fetch_array($check_query);
+          if (strtolower($check['Key_name']) == strtolower($key)) {
+            $add_sql = "ALTER TABLE `".$table."` DROP INDEX `".$check['Key_name']."`";
+            xtc_db_query($add_sql);
+            installer_log('EXECUTED SQL: '.$add_sql);
+          }
+        }
+      }
+    } elseif (preg_match('#[\\\z\s]?(?:ALTER TABLE){1}[\\\Z\s]+([^ ]*)[\\\z\s]+(?:ADD|DROP INDEX){1}[\\\z\s]+([^ ]*)[\\\z\s]+([^ ]*)#', $sql, $matches)) {    
+      $table = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[1]));
+      
+      if (in_array($table, $database_tables)) {
+        if (strtoupper($matches[2]) == 'INDEX') {
+          $key = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[3]));
+        
+          $check_query = xtc_db_query("SHOW KEYS FROM `".$table."` WHERE Key_name = '".$key."'");
+          if (xtc_db_num_rows($check_query) > 0) {
+            $check = xtc_db_fetch_array($check_query);
+            if (strtolower($check['Key_name']) == strtolower($key)) {
+              $add_sql = "ALTER TABLE `".$table."` DROP INDEX `".$check['Key_name']."`";
+              xtc_db_query($add_sql);
+              installer_log('EXECUTED SQL: '.$add_sql);
+            }
+          }
+          if (stripos(strtoupper($matches[0]), 'DROP INDEX') !== false) $execute = false;
+        } elseif (stripos(strtoupper($matches[0]), 'ADD') !== false) {
+          $column = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[2]));
+        
+          $check_query = xtc_db_query("SHOW COLUMNS FROM `".$table."` LIKE '".$column."'");
+          if (xtc_db_num_rows($check_query) > 0) {
+            $execute = false;
+          }
+        }
+      }
+    } elseif (preg_match('#[\\\z\s]?(?:ALTER TABLE){1}[\\\Z\s]+([^ ]*)[\\\z\s]+(?:CHANGE){1}[\\\z\s]+([^ ]*)#', $sql, $matches)) {
+      $table = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[1]));
+
+      if (in_array($table, $database_tables)) {
+        $column = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[2]));
+
+        $check_query = xtc_db_query("SHOW COLUMNS FROM `".$table."` LIKE '".$column."'");
+        if (xtc_db_num_rows($check_query) < 1) {
+          $execute = false;
+        }      
+      }
+    } elseif (preg_match('#[\\\z\s]?(?:ALTER TABLE){1}[\\\Z\s]+([^ ]*)[\\\z\s]+(?:DROP){1}[\\\z\s]+([^ ]*)#', $sql, $matches)) {
+      $table = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[1]));
+      
+      if (in_array($table, $database_tables)) {
+        if (stripos(strtoupper($matches[0]), 'DROP') !== false) {
+          $column = preg_replace("'[\r\n\s]+'", '', str_replace('`', '', $matches[2]));
+        
+          $check_query = xtc_db_query("SHOW COLUMNS FROM `".$table."` LIKE '".$column."'");
+          if (xtc_db_num_rows($check_query) > 0) {
+            $add_sql = "ALTER TABLE `".$table."` DROP `".$column."`";
+            xtc_db_query($add_sql);
+            installer_log('EXECUTED SQL: '.$add_sql);
+          }
+          $execute = false;
+        }
+      }
+    }
+
+    if ($execute === true) {
+      xtc_db_query($sql);
+      installer_log('EXECUTED SQL: '.$sql);
+    } else {
+      installer_log('NOT EXECUTED SQL: '.$sql);
+    }   
   }
   
   
@@ -347,47 +433,36 @@
   }
 
 
-  function get_checksum_install() {
-    global $whitelist_array, $blacklist_array;
-    
+  function get_database_version_installer() {
+    $check_query = xtc_db_query("SHOW COLUMNS FROM ".TABLE_DATABASE_VERSION." LIKE 'id'");
+    if (xtc_db_num_rows($check_query) < 1) {
+      xtc_db_query("ALTER TABLE `".TABLE_DATABASE_VERSION."` ADD `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
+    }
+    return get_database_version();
+  }
+
+
+  function get_checksum_install() {        
     $files_array = array();
-  
-    foreach ((new DirectoryIterator(DIR_FS_CATALOG)) as $file) {  
-      if (is_file($file->getPathname()) !== false) {
-        $relativePath = substr($file->getPathname(), strlen(DIR_FS_CATALOG)-strlen(DIR_WS_CATALOG));
-        
-        $index = str_replace(DIR_ADMIN, 'admin/', $relativePath);
-        $index = str_replace(DIR_WS_CATALOG, DIRECTORY_SEPARATOR, $index);
-      
-        $files_array[$index] = array(
-          'absolutePath' => $file->getPath(),
-          'relativePath' => dirname($relativePath),
-          'filename' => $file->getFilename(),
-          'checkSum' => get_hash_from_file($file->getPathname()),
-        );
-      }
-    }
 
-    foreach ($whitelist_array as $directory) {
-      foreach ((new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS))) as $file) {
-        $path_name = $file->getPathname();
-        foreach ($blacklist_array as $blacklist) {
-          if (strpos($path_name, $blacklist) !== false) continue 2;
+    $version_array = get_checksum_version();
+    if (is_array($version_array)) {
+      foreach ($version_array as $file => $data) {
+        $filename = ltrim($file, '/');
+        if (substr($filename, 0, 6) == 'admin/') {
+          $filename = substr_replace($filename, DIR_ADMIN, 0, 6);
         }
-      
-        $relativePath = substr($file->getPathname(), strlen(DIR_FS_CATALOG)-strlen(DIR_WS_CATALOG));
-      
-        $index = str_replace(DIR_ADMIN, 'admin/', $relativePath);
-        $index = str_replace(DIR_WS_CATALOG, DIRECTORY_SEPARATOR, $index);
 
-        $files_array[$index] = array(
-          'absolutePath' => $file->getPath(),
-          'relativePath' => dirname($relativePath),
-          'filename' => $file->getFilename(),
-          'checkSum' => get_hash_from_file($file->getPathname()),
-        );
+        if (is_file(DIR_FS_CATALOG.$filename)) {
+          $files_array[$file] = array(
+            'relativePath' => DIR_WS_CATALOG.$filename,
+            'absolutePath' => DIR_FS_CATALOG.$filename,
+            'filename' => basename($filename),
+            'checkSum' => get_hash_from_file(DIR_FS_CATALOG.$filename),
+          );
+        }
       }
-    }
+    }   
     ksort($files_array);
     
     return $files_array;
@@ -438,7 +513,7 @@
       $zip = new ZipArchive();
       if ($zip->open(DIR_FS_CATALOG.DIR_ADMIN.'backups/'.$backup_file, ZipArchive::CREATE) === true) {
         foreach ($checksum_array as $data) {      
-          $zip->addFile($data['absolutePath'].DIRECTORY_SEPARATOR.$data['filename'], rtrim($data['relativePath'], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$data['filename']);      
+          $zip->addFile($data['absolutePath'], $data['relativePath']);      
         }
       }
       $zip->close();
@@ -497,7 +572,7 @@
             $install_path = str_replace($shoproot, DIR_FS_CATALOG, $file->getPath());
             $install_path = rtrim($install_path, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
             $install_path = str_replace(DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $install_path);
-            $install_path = str_replace('/admin/', DIRECTORY_SEPARATOR.DIR_ADMIN, $install_path);
+            $install_path = str_replace(DIR_FS_CATALOG.'admin/', DIR_FS_CATALOG.DIR_ADMIN, $install_path);
             
             if (strpos($install_path.$file->getFilename(), DIR_FS_CATALOG.'includes/configure.php') !== false
                 || strpos($install_path.$file->getFilename(), DIR_FS_CATALOG.'includes/local/configure.php') !== false
@@ -523,4 +598,9 @@
     }
     
     return true;
+  }
+
+
+  function installer_log($messages) {
+    error_log($messages."\n", 3, DIR_FS_LOG.'mod_installer_info_'.date('Y-m-d').'.log');
   }

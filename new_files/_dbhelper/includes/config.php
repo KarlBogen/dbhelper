@@ -1,6 +1,6 @@
 <?php
 /* -----------------------------------------------------------------------------------------
-   $Id: config.php 14528 2022-06-14 10:21:59Z GTB $
+   $Id: config.php 16140 2024-10-01 16:16:45Z GTB $
 
    modified eCommerce Shopsoftware
    http://www.modified-shop.org
@@ -15,14 +15,14 @@
   
   // config
   define('EMAIL_SQL_ERRORS', 'false');
-  define('TEMPLATE_ENGINE','smarty_3');
+  define('TEMPLATE_ENGINE','smarty_4');
   define('SEARCH_ENGINE_FRIENDLY_URLS', 'false');
   define('DEFAULT_TEMPLATE', 'tpl_modified_responsive');
 
   // min / max  
   define('SSL_VERSION_MIN', '1.2');
-  define('PHP_VERSION_MIN', '7.4.0');
-  define('PHP_VERSION_MAX', '8.1.99');
+  define('PHP_VERSION_MIN', '8.0.0');
+  define('PHP_VERSION_MAX', '8.3.99');
   
   // permission
   define('CHMOD_WRITEABLE', 0775);

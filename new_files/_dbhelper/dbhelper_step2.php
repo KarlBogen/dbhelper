@@ -38,7 +38,7 @@
 	$smarty->assign('bigdump_read_message', sprintf(TEXT_DB_RESTORE_READ_FILE_HELPER, BIGDUMP_LINESPERSESSION));
 
 	$smarty->assign('bigdump_string', $string);
-	$smarty->assign('bigdump_jsstring', $js_script);
+	$smarty->assign('bigdump_jsstring', isset($js_script) ? $js_script : '');
 
 	if (isset($finish) && $finish === true)
 	{

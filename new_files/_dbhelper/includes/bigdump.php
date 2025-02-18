@@ -8,14 +8,14 @@
 
 error_reporting(E_ALL);
 
-// BigDump ver. 0.36b from 2015-04-30
+// BigDump ver. 0.37b from 2023-09-25
 // Staggered import of an large MySQL Dump (like phpMyAdmin 2.x Dump)
 // Even through the webservers with hard runtime limit and those in safe mode
 // Works fine with latest Chrome, Internet Explorer and Firefox
 
-// Author:       Alexey Ozerov (alexey at ozerov dot de) 
-//               AJAX & CSV functionalities: Krzysiek Herod (kr81uni at wp dot pl) 
-// Copyright:    GPL (C) 2003-2015
+// Author:       Alexey Ozerov (alexey at ozerov dot de)
+//               AJAX & CSV functionalities: Krzysiek Herod (kr81uni at wp dot pl)
+// Copyright:    GPL (C) 2003-2023
 // More Infos:   http://www.ozerov.de/bigdump
 
 // This program is free software; you can redistribute it and/or modify it under the
@@ -39,8 +39,7 @@ error_reporting(E_ALL);
 
 // LAST CHANGES
 
-// *** Fix a typo in HTML code
-// *** Change from mySQL to mySQLi
+// *** PHP8 compatibility
 
 // Database configuration
 $db_server   = (defined('DB_SERVER') ? DB_SERVER : 'localhost');
@@ -90,7 +89,7 @@ if ($ajax)
 	ob_start();
 }
 
-define('BIGDUMP_VERSION', '0.36b');
+define('BIGDUMP_VERSION', '0.37b');
 define('DATA_CHUNK_LENGTH', 16384);  // How many chars are read per time
 define('TESTMODE', (defined('BIGDUMP_TESTMODE') ? (BIGDUMP_TESTMODE == 'false' ? false : true) : false));           // Set to true to process the file without actually accessing the database
 
@@ -606,7 +605,7 @@ if ($error)
 {
 	$string .= '<p class="text-center bold"><a href="dbhelper_step2.php">' . BIGDUMP_TEXT_START_NEW . '</a></p>' . "\n";
 }
-if ($mysqli)
+if (!empty($mysqli))
 {
 	$mysqli->close();
 }
